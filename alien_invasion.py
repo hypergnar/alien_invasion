@@ -27,8 +27,8 @@ class AlienInvasion:
         self.stats = GameStats(self)
 
         self.ship = Ship(self)
-        self.bullets = pygame.sprite.Group()
-        self.aliens = pygame.sprite.Group()
+        self.bullets: pygame.sprite.Group[Bullet] = pygame.sprite.Group()
+        self.aliens: pygame.sprite.Group[Alien] = pygame.sprite.Group()
 
         self._create_fleet()
 
@@ -171,6 +171,9 @@ class AlienInvasion:
         #pause
         sleep(0.5)
 
+    def check_aliens_bottom(self):
+        """Check if any aliens  have reached the bottom of the screen."""
+        for alien in self.aliens.sprites():
 
     def _update_screen(self):
             # Update images on the screen, and flip to the new screen.
