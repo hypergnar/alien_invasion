@@ -73,6 +73,9 @@ class AlienInvasion:
         """Styart a new game when the player clicks Play"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
+            #Reset the game settings
+            self.settings.initialize_dynamic_settings()
+
             # Reset the game statistics.
             self.stats.reset_stats()
             self.game_active = True
@@ -123,7 +126,7 @@ class AlienInvasion:
         alien_width, alien_height = alien.rect.size
         
         current_x, current_y = alien_width, alien_height
-        while current_y <  (self.settings.screen_height - 3 * alien_height):
+        while current_y <  (self.settings.screen_height - 5 * alien_height):
             while current_x < (self.settings.screen_width - 2 * alien_width):
                 self._create_alien(current_x, current_y)
                 current_x += 2 * alien_width
@@ -180,6 +183,7 @@ class AlienInvasion:
             #Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _check_aliens_bottom(self):
         """Check if any aliens  have reached the bottom of the screen."""
