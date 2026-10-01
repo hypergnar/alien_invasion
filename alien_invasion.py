@@ -183,10 +183,11 @@ class AlienInvasion:
             self.bullets, self.aliens, True, True)
         
         if not self.aliens:
-            #Destroy existing bullets and create new fleet.
+            # Prepare the ship and faster settings before spawning the next fleet.
             self.bullets.empty()
-            self._create_fleet()
+            self.ship.center_ship()
             self.settings.increase_speed()
+            self._create_fleet()
 
     def _check_aliens_bottom(self):
         """Check if any aliens  have reached the bottom of the screen."""
