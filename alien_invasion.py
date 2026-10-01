@@ -82,6 +82,7 @@ class AlienInvasion:
             # Reset the game statistics.
             self.stats.reset_stats()
             self.sb.prep_score()
+            self.sb.prep_level()
             self.game_active = True
 
             # Get rid of any remaining bullets and aliens.
@@ -123,8 +124,6 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """Create the fleet  of aliens."""
-        # Crreate an alien and keep adding aliens until there's no room left.
-        # Spacing between aliens is one alien width and one alien height.
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         
@@ -186,13 +185,17 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
         
         if not self.aliens:
             # Prepare the ship and faster settings before spawning the next fleet.
             self.bullets.empty()
             self.ship.center_ship()
-            self.settings.increase_speed()
             self._create_fleet()
+            self.settings.increase_speed()
+
+            self.stats.level +=1
+            self.sb.prep_level()
 
     def _check_aliens_bottom(self):
         """Check if any aliens  have reached the bottom of the screen."""
